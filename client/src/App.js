@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import Home from './pages/Home';
 
 // function App() {
 //   return (
@@ -23,11 +24,7 @@ import './App.css';
 // }
 
 function App() {
-  return (
-    <div>
-      <h1>게시판 프로젝트</h1>
-    </div>
-  );
+  return <Home />;
 }
 
 export default App;
