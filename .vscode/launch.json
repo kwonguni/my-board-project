@@ -3,24 +3,16 @@
     // 기존 특성에 대한 설명을 보려면 가리킵니다.
     // 자세한 내용을 보려면 https://go.microsoft.com/fwlink/?linkid=830387을(를) 방문하세요.
     "version": "0.2.0",
-    // "configurations": [
-    //     {
-    //         "type": "chrome",
-    //         "request": "launch",
-    //         "name": "localhost에 대해 Chrome 시작",
-    //         "url": "http://localhost:8080",
-    //         "webRoot": "${workspaceFolder}"
-    //     }
-    // ]
     "configurations": [
         {
             "type": "node",
             "request": "launch",
-            "name": "디버그 서버 실행",
-            "program": "${workspaceFolder}/server/index.js",
+            "name": "Nodemon 디버그 서버 실행",
+            "runtimeExecutable": "npx",
+            "runtimeArgs": ["nodemon", "--inspect", "${workspaceFolder}/server/index.js"],
             "restart": true,
-            "runtimeArgs": ["--inspect"],
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         }
     ]
 }
