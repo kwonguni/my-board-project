@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import axios from "axios";
-import { usePostState, usePostDispatch, PostProvider } from "../context/PostContext";
+import { usePostState, usePostDispatch } from "../context/PostContext";
 import PostItem from "./PostItem.jsx";
 
 export default function PostList() {

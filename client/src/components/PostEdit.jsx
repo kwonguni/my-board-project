@@ -12,7 +12,7 @@ const PostEdit = () => {
         const fetchPost = async () => {
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/posts/${id}`);
             const data = await response.json();
-            setPost(data);
+            setPost(data[0]);
         };
         fetchPost();
     }, [id]);

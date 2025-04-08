@@ -18,10 +18,25 @@ exports.getAllPosts = (callback) => {
     });
 };
 
+// 게시글 상세
+exports.getPost = (id, callback) => {
+    const query = "SELECT * FROM board_db.posts WHERE id = ?";
+    console.log(`📝 실행할 쿼리: ${query}`);  // ✅ 실행할 쿼리 출력
+
+    db.query(query, [id], (err, results) => {
+        if (err) {
+            console.error("❌ 쿼리 실행 오류:", err); // ✅ 실행 오류 출력
+            return callback(err, null);
+        }
+        console.log("✅ 쿼리 실행 결과:", results); // ✅ 실행 결과 출력
+        callback(null, results);
+    });
+};
+
 // 게시글 추가
 exports.createPost = (title, content, callback) => {
-    const query = "INSERT INTO posts (title, content) VALUES (?, ?)";
-    console.log(`📝 실행할 쿼리: ${query} | 파라미터: [${title}, ${content}]`);  // ✅ 실행할 쿼리 및 파라미터 출력
+    const query = "INSERT INTO posts (title, content, author) VALUES (?, ?, ?)";
+    console.log(`📝 실행할 쿼리: ${query} | 파라미터: [${title}, ${content}, ${author}]`);  // ✅ 실행할 쿼리 및 파라미터 출력
     db.query(query, [title, content], (err, result) => {
         if (err) {
             console.error("❌ 쿼리 실행 오류:", err); // ✅ 실행 오류 출력

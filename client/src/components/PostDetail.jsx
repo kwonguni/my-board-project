@@ -19,12 +19,12 @@ const PostDetail = () => {
 
         const fetchPost = async() => {
             try {
-                const response = await fetch(`http://localhost:5000/posts/${id}`);
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/posts/${id}`);
                 if(!response.ok) {
                     throw new Error('게시글을 찾을 수 없습니다.');
                 }
                 const data = await response.json();
-                setPost(data);
+                setPost(data[0]);
             } catch(error) {
                 console.error(error);
                 setPost(null);
@@ -61,7 +61,7 @@ const PostDetail = () => {
             <div className="text-base mb-6">{post.content}</div>
 
             <div className="flex space-x-4">
-                <Link to={`/edit/${post.id}`} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                <Link to={`/posts/${post.id}/edit`} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                     수정
                 </Link>
                 <button onClick={handleDelete} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">

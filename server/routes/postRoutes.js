@@ -11,20 +11,33 @@ router.get("/test", (req, res) => {
 // 모든 게시글 조회
 router.get("/", (req, res) => {
     console.log("✅ GET 요청 받음!", req.query); // GET 요청이므로 req.query 확인
-    debugger;
+    // debugger;
     postModel.getAllPosts((err, results) => {
         if(err) return res.status(500).json({error: "DB 오류 발생"});
         res.json(results);
     });
+
+});
+
+// 게시글 상세 조회
+router.get("/:id", (req, res) => {
+    console.log("✅ GET 요청 받음!", req.query); // GET 요청이므로 req.query 확인
+    const {id} = req.params;
+    // debugger;
+    postModel.getPost(id, (err, results) => {
+        if(err) return res.status(500).json({error: "DB 오류 발생"});
+        res.json(results);
+    });
+
 });
 
 // 게시글 추가
 router.post("/", (req, res) => {
     console.log("✅ POST 요청 받음!", req.body); // 요청 데이터 확인용 로그
-    debugger;
-    const {title, content} = req.body;
-    debugger;
-    postModel.createPost(title, content, (err, result) => {
+    // debugger;
+    const {title, content, author} = req.body;
+    // debugger;
+    postModel.createPost(title, content, author, (err, result) => {
         if(err) return res.status(500).json({error: "DB 오류 발생"});
         res.json({id: result.insertId, title, content});
     });

@@ -5,6 +5,7 @@ import { usePostDispatch } from "../context/PostContext";
 const PostCreate = () => {
     const[title, setTitle] = useState("");
     const[content, setContent] = useState("");
+    const[author, setAuthor] = useState("");
     const navigate = useNavigate();
     const dispatch = usePostDispatch();
 
@@ -14,7 +15,7 @@ const PostCreate = () => {
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/posts`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json"},
-                body: JSON.stringify({title, content})
+                body: JSON.stringify({title, content, author})
             });
             const newPost = await response.json();
             dispatch({type: "ADD_POST", payload: newPost});

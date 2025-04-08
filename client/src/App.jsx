@@ -3,7 +3,6 @@ import PostList from "./components/PostList.jsx";
 import PostDetail from "./components/PostDetail.jsx";
 import PostEdit from "./components/PostEdit.jsx";
 import PostCreate from "./components/PostCreate.jsx";
-import { PostProvider } from "./context/PostContext";
 
 const App = () => {
     return (
