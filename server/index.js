@@ -1,15 +1,9 @@
 // 서버 실행 파일
 const express = require('express');
 const cors = require('cors');
-const db = require("./db");  // ✅ MySQL 연결 추가
 const postRoutes = require("./routes/postRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 console.log("📌 postRoutes 로드됨!");  // ✅ 추가
-
-const corsOptions = {
-    origin: "http://localhost:3000",
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type"
-};
 
 const app = express();
 app.use(cors());
@@ -28,6 +22,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/posts", postRoutes);
+app.use("/api", commentRoutes);
 
 app.listen(5000, () => {
     console.log("서버 실행 중: http://localhost:5000");

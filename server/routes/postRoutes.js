@@ -9,61 +9,71 @@ router.get("/test", (req, res) => {
 });
 
 // 모든 게시글 조회
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
     console.log("✅ GET 요청 받음!", req.query); // GET 요청이므로 req.query 확인
-    // debugger;
-    postModel.getAllPosts((err, results) => {
-        if(err) return res.status(500).json({error: "DB 오류 발생"});
-        res.json(results);
-    });
-
+    try {
+        const posts = await postModel.getAllPosts();
+        res.json(posts);
+    } catch (error) {
+        console.error("❌ DB 오류:", error);
+        res.status(500).json({ error: "DB 오류 발생" });
+    }
 });
 
 // 게시글 상세 조회
-router.get("/:id", (req, res) => {
-    console.log("✅ GET 요청 받음!", req.query); // GET 요청이므로 req.query 확인
+router.get("/:id", async (req, res) => {
     const {id} = req.params;
-    // debugger;
-    postModel.getPost(id, (err, results) => {
-        if(err) return res.status(500).json({error: "DB 오류 발생"});
-        res.json(results);
-    });
-
+    console.log(`✅ [GET /:id] 게시글 상세 요청 받음 | ID: ${id}`);
+    try {
+        const results = await postModel.getPost(id);
+        res.json(results[0]);
+    } catch (error) {
+        console.error("❌ 게시글 상세 조회 중 오류:", error);
+        res.status(500).json({ error: "DB 오류 발생" });
+    }
 });
 
 // 게시글 추가
-router.post("/", (req, res) => {
-    console.log("✅ POST 요청 받음!", req.body); // 요청 데이터 확인용 로그
-    // debugger;
+router.post("/", async (req, res) => {
     const {title, content, author} = req.body;
-    // debugger;
-    postModel.createPost(title, content, author, (err, result) => {
-        if(err) return res.status(500).json({error: "DB 오류 발생"});
+    console.log("✅ [POST /] 게시글 추가 요청 받음:", req.body);
+    
+    try {
+        const resultt = await postModel.createPost(title, content, author);
         res.json({id: result.insertId, title, content});
-    });
+    } catch (error) {
+        console.error("❌ 게시글 등록 중 오류:", error);
+        res.status(500).json({error: "DB 오류 발생"});
+    }
 });
 
 // 게시글 수정
-router.put("/:id", (req, res) => {
-    console.log("✅ PUT 요청 받음!", req.body); // 요청 데이터 확인용 로그
+router.put("/:id", async (req, res) => {
     const {title, content} = req.body;
     const {id} = req.params;
+    console.log(`✅ [PUT /:id] 게시글 수정 요청 받음 | ID: ${id}`, req.body);
 
-    postModel.updatePost(id, title, content, (err, result) => {
-        if(err) return res.status(500).json({error: "DB 오류 발생"});
+    try {
+        const result = await postModel.updatePost(id, title, content);
         res.json({message: "게시글 수정 완료!"});
-    });
+    } catch (error) {
+        console.error("❌ 게시글 수정 중 오류:", error);
+        res.status(500).json({error: "DB 오류 발생"});
+    }
 });
 
 // 게시글 삭제
-router.delete("/:id", (req, res) => {
-    console.log("✅ DELETE 요청 받음!", req.params); // 요청 데이터 확인용 로그
+router.delete("/:id", async (req, res) => {
     const {id} = req.params;
+    console.log(`✅ [DELETE /:id] 게시글 삭제 요청 받음 | ID: ${id}`);
 
-    postModel.deletePost(id, (err, result) => {
-        if(err) return res.status(500).json({error: "DB 오류 발생"});
+    try {
+        const result = await postModel.deletePost(id);
         res.json({message: "게시글 삭제 완료!"});
-    });
+    } catch (error) {
+        console.error("❌ 게시글 삭제 중 오류:", error);
+        res.status(500).json({error: "DB 오류 발생"});
+    }
 });
 
 module.exports = router;

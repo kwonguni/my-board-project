@@ -11,7 +11,6 @@ export default function PostList() {
         const fetchPosts = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/posts`);
-                // const response = await axios.get("http://localhost:5000/posts");
                 dispatch({type: "SET_POSTS", payload: response.data});    
             } catch (error) {
                 console.error("게시글 불러오기 실패:", error);
