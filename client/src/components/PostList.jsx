@@ -43,28 +43,34 @@ export default function PostList() {
 
     return (
         <div className="space-y-4">
-            {posts.map((post) => (
-                <PostItem key={post.id} post={post} />
-            ))}
+            {posts.map((post, index) => {
+                const postNumber = totalCount - ((currentPage - 1) * postsPerPage + index);
+                const formatDate =  (date) => {
+                    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+                    return new Date(date).toLocaleDateString('ko-KR', options);
+                };
+
+                return <PostItem key={post.id} post={post} postNumber={postNumber} formatDate={formatDate} />
+            })}
 
             {/* 페이지네이션 버튼 */}
             <div className="flex justify-center mt-6 space-x-2">
                 <button 
                     onClick={() => dispatch({ type: "SET_CURRENT_PAGE", payload: Math.max(currentPage - 1, 1) })}
                     disabled={currentPage === 1}
-                    className="px-3 py-1 border rounded disabled:opacity-50">
+                    className="px-3 py-1 border rounded disabled:opacity-50 hover:bg-blue-500 hover:text-white">
                     prev
                 </button>
                 {[...Array(totalPages)].map((_, i) => (
                     <button key={i+1}
                         onClick={() => dispatch({ type: "SET_CURRENT_PAGE", payload: i + 1 })}
-                        className={`px-3 py-1 border rounded ${currentPage === i + 1 ? "bg-blue-500 text-white" : ""}`}>{i + 1}</button>
+                        className={`px-3 py-1 border rounded ${currentPage === i + 1 ? "bg-blue-500 text-white" : "hover:bg-blue-100"}`}>{i + 1}</button>
                 ))}
 
                 <button 
                     onClick={() => dispatch({ type: "SET_CURRENT_PAGE", payload: Math.min(currentPage + 1, totalPages) })} 
                     disabled={currentPage === totalPages}
-                    className="px-3 py-1 border rounded disabled:opacity-50">
+                    className="px-3 py-1 border rounded disabled:opacity-50 hover:bg-blue-500 hover:text-white">
                     next
                 </button>
             </div>
