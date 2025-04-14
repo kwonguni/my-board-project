@@ -8,6 +8,16 @@ const PostItem = ({post}) => {
                 {post.title}
             </Link>
             <p className='text-gray-500 text-sm'>작성자: {post.author}</p>
+            <p className='text-gray-400 text-xs'>
+                {new Date(post.created_at).toLocaleString('ko-KR', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })}
+            </p>
+            {/* { <p>{JSON.stringify(post, null, 2)}</p> } */}
         </div>    
     );
 };

@@ -12,6 +12,25 @@ exports.getAllPosts = async () => {
     return results;
 };
 
+// 전체 게시글 수
+exports.getTotalPostCount = async () => {
+    const query = "SELECT COUNT(1) as count FROM board_db.posts";
+    console.log(`📝 [getTotalPostCount] 실행할 쿼리: ${query}`);
+    const [rows] = await db.query(query);
+    console.log("✅ [getTotalPostCount] 조회 결과:", rows, "건");
+    return rows[0].count;
+};
+
+// 모든 게시글 조회(페이지네이션)
+exports.getPostsWithPagination = async (page, size) => {
+    const offset = (page -1) * size;
+    const query = "SELECT * FROM board_db.posts ORDER BY created_at DESC LIMIT ? OFFSET ?";
+    console.log(`📝 [getPostsWithPagination] 쿼리: ${query} | 파라미터: [${size}, ${offset}]`);
+    const [results] = await db.query(query, [size, offset]);
+    console.log("✅ [getPostsWithPagination] 조회 결과:", results.length, "건");
+    return results;
+};
+
 // 게시글 상세
 exports.getPost = async (id) => {
     const query = "SELECT * FROM board_db.posts WHERE id = ?";

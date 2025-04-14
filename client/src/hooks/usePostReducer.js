@@ -2,6 +2,9 @@ import { useReducer } from "react";
 
 const initialState = {
     posts: [],
+    totalCount: 0,
+    totalPages: 1,
+    currentPage: 1
 };
 
 function reducer(state, action) {
@@ -20,6 +23,13 @@ function reducer(state, action) {
                 ...state,
                 posts: state.posts.filter((post) => post.id !== action.payload)
             };    
+        case "SET_PAGINATION":
+            return {
+                ...state,
+                totalCount: action.payload.totalCount,
+                totalPages: action.payload.totalPages,
+                currentPage: action.payload.currentPage
+            };
         default:
             return state;
     }

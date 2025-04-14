@@ -29,7 +29,8 @@ export default function CommentList({ postId }) {
                 author,
                 content
             });
-    
+            
+            setAuthor("");
             setContent("");
             fetchComments();    // 댓글 다시 불러오기    
         } catch (error) {
@@ -60,6 +61,7 @@ export default function CommentList({ postId }) {
                 content: editContent
             });
             setEditingCommentId(null);
+            setAuthor("");
             setEditContent("");
             fetchComments();
         } catch (error) {

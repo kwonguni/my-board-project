@@ -2,7 +2,7 @@
 const db = require("../db");    // MySQL 연결 정보 가져오기
 
 exports.createComment = async (postId, author, content) => {
-    const query = "INSERT INTO board_db.comments (postId, author, content) VALUES (?, ?, ?)";
+    const query = "INSERT INTO board_db.comments (post_id, author, content) VALUES (?, ?, ?)";
     const [result] = await db.query(query, [postId, author, content]);
     
     const subQuery = "SELECT * FROM board_db.comments WHERE id = ?";

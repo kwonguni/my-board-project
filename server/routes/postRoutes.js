@@ -8,12 +8,26 @@ router.get("/test", (req, res) => {
     res.json({ message: "서버 정상 작동 중!" });
 });
 
-// 모든 게시글 조회
+// 모든 게시글 조회 (GET /api/posts?page=1&size=5)
 router.get("/", async (req, res) => {
-    console.log("✅ GET 요청 받음!", req.query); // GET 요청이므로 req.query 확인
+    const { page = 1, size = 10 } = req.query;
+    console.log("✅ GET 요청 받음! page:", page, "size:", size);
+    const pageNum = parseInt(page);
+    const sizeNum =  parseInt(size);
+
     try {
-        const posts = await postModel.getAllPosts();
-        res.json(posts);
+        //const posts = await postModel.getAllPosts();
+        const [posts, totalCount] = await Promise.all([
+            postModel.getPostsWithPagination(pageNum, sizeNum), 
+            postModel.getTotalPostCount()
+        ]);
+        console.log("총 게시글 수 :", totalCount, "건");
+        res.json({
+            posts,
+            totalPages: Math.ceil(totalCount / sizeNum),
+            currentPage: pageNum,
+            totalCount
+        });
     } catch (error) {
         console.error("❌ DB 오류:", error);
         res.status(500).json({ error: "DB 오류 발생" });
